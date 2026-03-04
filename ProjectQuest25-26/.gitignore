@@ -12,6 +12,7 @@ UserSettings/
 Assets/**/*.tmp
 Assets/**/*.backup
 Assets/**/*.sample
+Assets/Voxels/Voxel\ Assets/
 
 # --- Build Outputs ---
 *.apk
@@ -23,6 +24,7 @@ Assets/**/*.sample
 .vs/
 .vscode/
 .gradle/
+.idea/
 *.csproj
 *.sln
 *.suo
