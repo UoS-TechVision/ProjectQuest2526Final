@@ -2,6 +2,7 @@ using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
 using ProjectQuest.Levels;
+using ProjectQuest.Player;
 
 /// <summary>
 /// Editor script to set up the SampleScene with TilemapGenerator and camera positioning.
@@ -80,7 +81,7 @@ public static class SceneSetup
             }
         }
 
-        // Attach CameraFollow to Main Camera, targeting the penguin
+        // Ensure a Main Camera exists with CameraFollow targeting the penguin
         Camera mainCamera = Camera.main;
         if (mainCamera == null)
         {
@@ -88,21 +89,18 @@ public static class SceneSetup
             cameraGO.tag = "MainCamera";
             mainCamera = cameraGO.AddComponent<Camera>();
             cameraGO.AddComponent<AudioListener>();
-            EditorSceneManager.MarkSceneDirty(scene);
-            Debug.Log("SceneSetup: No Main Camera found — created one.");
         }
 
-        if (mainCamera != null && penguinGO != null)
-        {
-            CameraFollow follow = mainCamera.GetComponent<ProjectQuest.Player.CameraFollow>();
-            if (follow == null)
-                follow = mainCamera.gameObject.AddComponent<ProjectQuest.Player.CameraFollow>();
+        CameraFollow follow = mainCamera.GetComponent<CameraFollow>() ?? mainCamera.gameObject.AddComponent<CameraFollow>();
 
+        if (penguinGO != null)
+        {
             SerializedObject cameraSo = new SerializedObject(follow);
             cameraSo.FindProperty("target").objectReferenceValue = penguinGO.transform;
             cameraSo.ApplyModifiedProperties();
-            EditorSceneManager.MarkSceneDirty(scene);
         }
+
+        EditorSceneManager.MarkSceneDirty(scene);
 
         // Frame the Scene view over the centre of the tilemap (250×250 world units)
         SceneView sceneView = SceneView.lastActiveSceneView;
