@@ -8,6 +8,9 @@ using ProjectQuest.Levels;
 /// </summary>
 public static class SceneSetup
 {
+    [MenuItem("ProjectQuest/Setup Ice Age Level", validate = true)]
+    public static bool SetupIceAgeLevelValidate() => !EditorApplication.isPlaying;
+
     [MenuItem("ProjectQuest/Setup Ice Age Level")]
     public static void SetupIceAgeLevel()
     {
@@ -58,7 +61,7 @@ public static class SceneSetup
 
         EditorUtility.SetDirty(tilemapGen);
 
-        // Position camera for 2.5D side-scrolling view
+        // Position Main Camera for 2.5D side-scrolling view
         Camera mainCamera = Camera.main;
         if (mainCamera != null)
         {
@@ -67,7 +70,18 @@ public static class SceneSetup
             EditorSceneManager.MarkSceneDirty(scene);
         }
 
+        // Frame the Scene view over the centre of the tilemap (250×250 world units)
+        SceneView sceneView = SceneView.lastActiveSceneView;
+        if (sceneView != null)
+        {
+            // Pivot at grid centre, angled down so the full grid is visible
+            sceneView.pivot = new Vector3(125f, 0f, 125f);
+            sceneView.rotation = Quaternion.Euler(50f, 0f, 0f);
+            sceneView.size = 180f; // orthographic-equivalent zoom to fit 250-unit grid
+            sceneView.Repaint();
+        }
+
         EditorSceneManager.SaveScene(scene);
-        Debug.Log("Ice Age Level setup complete! Ready to generate tilemap via context menu.");
+        Debug.Log("Ice Age Level setup complete! Scene view framed over tilemap. Ready to generate via context menu.");
     }
 }
