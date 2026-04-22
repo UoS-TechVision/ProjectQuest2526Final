@@ -13,7 +13,7 @@ public class Player
     public Player() {
         currentWidth = 8;
         currentHeight = 0;
-        prefab = Resources.Load<GameObject>("Prefabs/chicken");
+        prefab = Resources.Load<GameObject>("Prefabs/penguin");
         playerObject = Object.Instantiate(prefab, new Vector3(currentWidth * 1.6f, 0.3f, currentHeight * 1.6f), Quaternion.identity);
         previousZPosition = playerObject.transform.position.z; // Store initial Z position
         score = 0; // Initialize score

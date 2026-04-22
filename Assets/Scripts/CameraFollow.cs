@@ -11,6 +11,14 @@ public class CameraFollow : MonoBehaviour
 
     private void Awake() {
         _offset = transform.position - target.position;
+        // Look for the object with the Movement script (which is on your Penguin)
+        GameObject player = GameObject.FindObjectOfType<Movement>().gameObject;
+        
+        if (player != null) {
+            target = player.transform;
+        } else {
+            Debug.LogWarning("Camera couldn't find the player!");
+        }
     }
 
     private void LateUpdate() {

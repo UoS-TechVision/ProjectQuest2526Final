@@ -8,6 +8,7 @@ public class VehicleCollide : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
+        Debug.Log("Hit something: " + collision.gameObject.name + " with tag: " + collision.gameObject.tag);
         // Check if the player collides with an object tagged "Vehicle"
         if (collision.gameObject.CompareTag("Vehicle"))
         {

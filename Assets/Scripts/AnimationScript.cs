@@ -7,9 +7,6 @@ public class AnimationScript : MonoBehaviour
     private bool isRotating;
     private Quaternion origRot, targetRot;
     private float timeToRotate = 0.1f;
-
-    // TASK 3: Keep checking for when a key is pressed down and then call StartCoroutine to rotate
-    // the player based on the key pressed (WASD)
     void Update()
     {
         // Prevent multiple coroutines from occurring at the same time
@@ -17,7 +14,18 @@ public class AnimationScript : MonoBehaviour
             return;
         }
         // When a key is press down, the player rotates
-        
+        if (Input.GetKeyDown(KeyCode.W)) {
+            StartCoroutine(RotatePlayer(Vector3.zero)); // Forward (no rotation)
+        }
+        else if (Input.GetKeyDown(KeyCode.S)) {
+            StartCoroutine(RotatePlayer(new Vector3(0, 180f, 0))); // Rotate 180° to face backward
+        }
+        else if (Input.GetKeyDown(KeyCode.A)) {
+            StartCoroutine(RotatePlayer(new Vector3(0, -90f, 0))); // Rotate 90° to the left
+        }
+        else if (Input.GetKeyDown(KeyCode.D)) {
+            StartCoroutine(RotatePlayer(new Vector3(0, 90f, 0))); // Rotate 90° to the right
+        }
     }
 
     private IEnumerator RotatePlayer(Vector3 rotationAngles) {
